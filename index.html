@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- This project was made by @tristantimblin in 2019 -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <!-- Behavioral Meta Data -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Basics -->
+    <title>Netlify Ajax Form</title>
+    <meta name="description" content="Use Netlify Forms to handle form submissions without a server.">
+
+    <style>
+      .contact-notif {
+        visibility: hidden;
+      }
+      .contact--success .contact-notif {
+        visibility: visible;
+      }
+    </style>
+    
+</head>
+
+<body>
+
+<div class="site">
+
+  <header class="title">
+    <h1>Contact Us</h1>
+  </header>
+
+  <div class="contact">
+
+    <form class="contact-form" name="contact" action="/" netlify netlify-honeypot="bot-field">
+
+      <input type="hidden" name="form-name" value="contact" />
+
+      <input type="text" name="name" placeholder="Your Name" required>
+
+      <input type="email" name="email" placeholder="EMAIL ADDRESS" required>
+
+      <input type="submit" value="Submit">
+
+    </form>
+
+    <div class="contact-notif">
+      <p>Email Received</p>
+    </div>
+
+  </div>
+    
+</div>
+
+<script>
+  var form = document.querySelector(".contact-form");
+  var contact = document.querySelector(".contact");
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    var fd = new FormData(form);
+    fd.set('form-name', 'contact');
+    var xhr = new XMLHttpRequest();
+    xhr.addEventListener("load", e => {
+      console.log(e.target.responseText);
+      contact.classList.add('contact--success');
+    });
+    xhr.addEventListener("error", e => {
+      console.log(e);
+    });
+    xhr.open("POST", form.action);
+    xhr.send(fd);
+  });
+</script>
+
+</body>
+</html>
